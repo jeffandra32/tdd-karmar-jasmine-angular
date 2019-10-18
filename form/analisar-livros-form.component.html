@@ -1,0 +1,78 @@
+<section class="card-box-content">
+  <form [formGroup]="pesquisaForm">
+    <div class="form-group mt-4 col-12">
+
+      <div class="form-group row justify-content-center">
+        <label for="protocolo" class="col-4 col-form-label text-left">Protocolo:</label>
+        <div class="col-8">
+          <input formControlName="protocolo" class="form-control text-uppercase" [textMask]="maskFactory.createProtocolo()"
+            type="text" id="protocolo">
+          <div class="mt-1 text-danger" *ngIf="pesquisaForm.protocolo.touched && pesquisaForm.protocolo.errors">
+            {{ pesquisaForm.getFirstErrorFrom('protocolo','Protocolo') }}
+          </div>
+        </div>
+      </div>
+      <!--/form-group -->
+
+      <div class="form-group row justify-content-center">
+        <label for="protocolo" class="col-4 col-form-label text-left">Nome Empresarial:</label>
+        <div class="col-8">
+          <input formControlName="nomeEmpresarial" class="form-control text-uppercase" type="text" id="nomeEmpresarial">
+          <div class="mt-1 text-danger" *ngIf="pesquisaForm.nomeEmpresarial.touched && pesquisaForm.nomeEmpresarial.errors">
+            {{ pesquisaForm.getFirstErrorFrom('nomeEmpresarial','Nome Empresarial') }}
+          </div>
+        </div>
+      </div>
+      <!--/form-group -->
+
+      <div class="form-group row justify-content-center">
+        <label for="protocolo" class="col-4 col-form-label text-left">CNPJ:</label>
+        <div class="col-8">
+          <input formControlName="cnpj" class="form-control text-uppercase" [textMask]="maskFactory.createCnpj()" type="text"
+            id="cnpj">
+          <div class="mt-1 text-danger" *ngIf="pesquisaForm.cnpj.touched && pesquisaForm.cnpj.errors">
+            {{ pesquisaForm.getFirstErrorFrom('cnpj','CNPJ') }}
+          </div>
+        </div>
+      </div>
+      <!--/form-group -->
+
+      <div class="form-group row justify-content-center">
+        <label for="protocolo" class="col-4 col-form-label text-left">Número De Registro:</label>
+        <div class="col-8">
+          <input formControlName="numeroRegistro" class="form-control text-uppercase" maxlength="11" type="text" id="numeroRegistro">
+          <div class="mt-1 text-danger" *ngIf="pesquisaForm.numeroRegistro.touched && pesquisaForm.numeroRegistro.errors">
+            {{ pesquisaForm.getFirstErrorFrom('numeroRegistro','Número De Registro') }}
+          </div>
+        </div>
+      </div>
+      <!--/form-group -->
+
+      <div class="form-group d-flex justify-content-end">
+          <div>
+            <button id="atribuir" class="btn btn-nav-base btn-nav-ico-right"
+              title="Clique aqui para atribuir" (click)="validaAtribuirProcessoForm()" [disabled]="loading">
+              Atribuir
+              <span class="ico ico-right">
+                <em class="fa fa-circle-o-notch fa-spin fa-fw" *ngIf="loading"></em>
+                <em class="fa fa-check-square-o" aria-hidden="true" *ngIf="!loading"></em>
+              </span>
+            </button>
+        </div>
+        <!--/form-group -->
+            
+        <div>
+          <button type="submit" id="pesquisarSolicitacoes" class="btn btn-nav-base btn-nav-ico-right" title="Clique aqui para pesquisar"
+            (click)="pesquisar()">
+            Pesquisar
+            <span class="ico ico-right">
+              <em class="fa fa-search" aria-hidden="true"></em>
+            </span>
+          </button>
+        </div>
+      </div>
+      <!--/form-group -->
+
+    </div>
+  </form>
+</section>

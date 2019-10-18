@@ -1,0 +1,56 @@
+image: voxtecnologiahub/node-8.11.3-ci
+
+.only-default: &only-default
+  only:
+    - master@vox/registro-empresarial/junta-digital/analise-livro-front
+    - merge_requests
+    - gitlab-ci-karma
+
+stages:
+  - test
+  - scanner
+
+cache: &global_cache
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - node_modules/
+
+before_script:
+  - export CHROME_BIN="$(pwd)/node_modules/chromium-binary/lib/chromium/chrome-linux/chrome"
+  - npm install --silent
+  - npm run build-gitlab-ci
+  - export NO_PROXY="localhost, 0.0.0.0/4201, 0.0.0.0/9876"
+
+karma:
+  <<: *only-default
+  cache:
+    <<: *global_cache
+  stage: test
+  script:
+    - node_modules/@angular/cli/bin/ng test --code-coverage=true
+  artifacts:
+    paths:
+      - coverage
+  coverage: '/Statements.*?(\d+(?:\.\d+)?)%/'
+
+sonar:
+  only:
+    - master@vox/registro-empresarial/junta-digital/analise-livro-front
+    - gitlab-ci-karma
+  cache:
+    <<: *global_cache
+  stage: scanner
+  image: timbru31/java-node
+  variables:
+    SONAR_LOGIN: 3710349d8a8053fb2cf6b8571bb0954e765fc783
+    SONAR_URL: http://10.1.1.121:9000
+    SONAR_IMAGE: sonar-scanner-cli-4.0.0.1744-linux
+  dependencies:
+    - karma
+  before_script:
+    - wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/$SONAR_IMAGE.zip
+    - mkdir -p opt
+    - unzip -o -qq $SONAR_IMAGE.zip -d opt
+    - chmod +x opt/sonar-scanner-4.0.0.1744-linux/bin/sonar-scanner
+  script:
+    - opt/sonar-scanner-4.0.0.1744-linux/bin/sonar-scanner -Dsonar.host.url=$SONAR_URL -Dsonar.login=$SONAR_LOGIN -Dsonar.projectKey=analise-livro-front -Dsonar.sources=. -Dsonar.typescript.lcov.reportPaths=coverage/lcov.info -Dsonar.projectBaseDir=./ -Dsonar.exclusions="coverage/**, node_modules/**, tests/**, dist-lib/**, projects/**, src/karma.conf.js, e2e/**, src/**/*.spec.ts, src/environments/**, src/polyfills.ts, src/test.ts, src/main.ts"

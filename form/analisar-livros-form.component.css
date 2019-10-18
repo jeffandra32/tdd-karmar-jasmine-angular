@@ -1,0 +1,10 @@
+.card-box-content {
+    display: inline-block;
+    width: 100%;
+    border: 1px solid #005b34;
+    padding: 2em;
+    -webkit-border-radius: 5px 5px 5px 5px;
+    border-radius: 5px 5px 5px 5px;
+    margin-bottom: .75rem;
+  }
+  

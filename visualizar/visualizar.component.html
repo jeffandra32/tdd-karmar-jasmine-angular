@@ -1,0 +1,31 @@
+<div class="card card-content">
+  <div class="card-body">
+    <lib-cards [data]="cards" (cardsChange)="onCardsChange($event)"></lib-cards>
+  </div>
+  <div class="card-footer">
+    <div class="text-right">
+      <button icon="angle-double-left" class="btn btn-nav-base"
+        (click)="back()">Voltar</button>
+      <ng-container *ngIf="showRequirementAction && visibleExigencia">
+        <button icon="check" iconSide="right"class="btn btn-nav-base btn-nav-ico-right"
+          (click)="onRequirement()" [disabled]="loading">Exigência
+          <span class="ico ico-right">
+            <em class="fa fa-circle-o-notch fa-spin fa-fw" *ngIf="loading"></em>
+            <em class="fa fa-check" aria-hidden="true" *ngIf="!loading"></em>
+          </span>
+        </button>
+      </ng-container>
+      <ng-container *ngIf="showFinishAction && visibleFinalizar">
+        <button icon="check" iconSide="right" class="btn btn-nav-base btn-nav-ico-right"
+          (click)="onFinish()" [disabled]="loading">Finalizar
+          <span class="ico ico-right">
+            <em class="fa fa-circle-o-notch fa-spin fa-fw" *ngIf="loading"></em>
+            <em class="fa fa-check" aria-hidden="true" *ngIf="!loading"></em>
+          </span>
+        </button>
+      </ng-container>
+    </div>
+  </div>
+</div>
+
+<vox-loading-modal></vox-loading-modal>

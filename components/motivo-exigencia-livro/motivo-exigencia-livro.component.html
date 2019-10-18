@@ -1,0 +1,32 @@
+<div class="motivo-exigencia">
+  <ng-container *ngIf="visible">
+      <div class="panel-heading card-header" role="tab">
+          <div class="panel-title">
+            MOTIVO DA EXIGÊNCIA
+          </div>
+        </div><br>
+    <lib-vox-form [data]="formData" (export)="onExport($event)"></lib-vox-form>
+    <div class="actions">
+      <button icon="times" iconSide="right" class="btn btn-nav-base" (click)="onCancel()">Cancelar Exigência</button>
+      <button class="btn btn-nav-base btn-nav-ico-right" (click)="onConfirm()" [disabled]="loading">Confirmar Exigência
+        <span class="ico ico-right">
+          <em class="fa fa-circle-o-notch fa-spin fa-fw" *ngIf="loading"></em>
+          <em class="fa fa-check" aria-hidden="true" *ngIf="!loading"></em>
+        </span>
+      </button>
+    </div>
+  </ng-container>
+  <div class="actions">
+    <ng-container *ngIf="hasDeferAction && visibleActions">
+      <button  class="btn btn-nav-base btn-nav-ico-right" (click)="onDefer()" [disabled]="loading">Deferir
+        <span class="ico ico-right">
+          <em class="fa fa-circle-o-notch fa-spin fa-fw" *ngIf="loading"></em>
+          <em class="fa fa-check" aria-hidden="true" *ngIf="!loading"></em>
+        </span>
+      </button>
+    </ng-container>
+    <ng-container *ngIf="hasRequirementAction && visibleActions">
+      <button icon="times" iconSide="right" class="btn btn-nav-base" (click)="onRequirement()">Exigência</button>
+    </ng-container>
+  </div>
+</div>
